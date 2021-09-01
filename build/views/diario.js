@@ -37,12 +37,13 @@ function getView(){
                         <table class="table table-responsive table-hover table-striped">
                             <thead class="bg-trans-gradient text-white">
                                 <tr>
-                                    <td>FECHA</td>
-                                    <td>PARTIDA</td>
-                                    <td>CODIGO</td>
+                                    <td>POLIZA/FECHA</td>
+                                    <td>DOCUMENTO</td>
                                     <td>CUENTA</td>
+                                    <td>DESCRIPCION</td>
                                     <td>DEBE</td>
                                     <td>HABER</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody id="tblPartidas">
@@ -290,8 +291,32 @@ function addListeners(){
         funciones.Confirmacion('¿Está seguro que desea Guardar esta Partida?')
         .then((value)=>{
             if(value==true){
-
+                let fecha = document.getElementById('txtPFecha').value;
+                let documento = document.getElementById('txtPNumero').value;
+                let nopoliza = document.getElementById('txtPNoPoliza').value;
+                let codcuenta = document.getElementById('cmbPCodCuenta').value;
+                let descripcion = document.getElementById('txtPDescripcion').value;
+                let debe = document.getElementById('txtPDebe').value || '0';
+                let haber = document.getElementById('txtPHaber').value || '0';
                 
+                btnGuardar.innerHTML = '<i class="fal fa-save fa-spin"></i>';
+                btnGuardar.disabled = true;
+
+                insertPartida(fecha,documento,nopoliza,codcuenta,descripcion,debe,haber)
+                .then(()=>{
+                    funciones.Aviso('Movimiento registrado exitosamente!!');
+                    getListado('tblPartidas');
+                    cleanPartidaData();
+                    $('#modalNuevo').modal('hide');
+                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>GUARDAR';
+                    btnGuardar.disabled = false;
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo guardar este movimiento');
+                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>GUARDAR';
+                    btnGuardar.disabled = false;
+                })
+
 
             }
         })
@@ -311,13 +336,82 @@ function InicializarVista(){
 
 function getListado(idContainer){
 
-    let contenedor = document.getElementById(idContainer);
-    contenedor.innerHT = GlobalLoader;
+    let container = document.getElementById(idContainer);
+    container.innerHTML = GlobalLoader;
+
+    let strdata = ''; 
+
+    axios.post('/diario/partidas_listado', {
+        empnit:GlobalEmpnit
+    })
+    .then((response) => {
+        const data = response.data.recordset;
+        data.map((rows)=>{                    
+                    strdata = strdata + `<tr class=''>
+                    <td>${rows.DESPOLIZA}(No.${rows.NOPOLIZA})
+                        <br>
+                        <small class="text-campesino negrita">Fecha: ${funciones.cleanFecha(rows.FECHA)}</small>
+                    </td>
+                    <td class="negrita">${rows.NOPARTIDA}</td>
+                    <td>${rows.DESCUENTA}
+                        <br>
+                        <small class="text-campesino negrita">${rows.CODCUENTA}</small>
+                    </td>
+                    <td>${rows.DESCRIPCION}</td>
+                    <td>${funciones.setMoneda(rows.DEBE,'Q')}</td>
+                    <td>${funciones.setMoneda(rows.HABER,'Q')}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm btn-circle" onclick="">
+                            <i class="fal fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`             
+        })
+        container.innerHTML = strdata;
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        strdata = '';
+        container.innerHTML = 'No se pudo cargar la lista';
+    });
+    
+};
+
+function cleanPartidaData(){
+    
+    //document.getElementById('txtPFecha').value
+    //document.getElementById('txtPNumero').value;
+    //document.getElementById('txtPNoPoliza').value;
+    //document.getElementById('cmbPCodCuenta').value;
+    document.getElementById('txtPDescripcion').value = '';
+    document.getElementById('txtPDebe').value = '';
+    document.getElementById('txtPHaber').value = '';
 
 };
 
 
-function insertPartida(){
+function insertPartida(fecha,numero,nopoliza,codcuenta,descripcion,debe,haber){
+    return new Promise((resolve,reject)=>{
+        axios.post('/diario/partidas_insert',{
+           empnit:GlobalEmpnit,
+           fecha:fecha,
+           numero:numero,
+           nopoliza:nopoliza,
+           codcuenta:codcuenta,
+           descripcion:descripcion,
+           debe:debe,
+           haber:haber
+        })
+        .then((response) => {
+            let data = response.data;
+            if(Number(data.rowsAffected[0])>0){
+                resolve();             
+            }else{
+                reject();
+            }               
+        }, (error) => {
+            reject();
+        });
+    })
 
 };
 

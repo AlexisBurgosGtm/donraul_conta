@@ -1304,6 +1304,9 @@ let funciones = {
     },
     gotoGoogleMaps:(lat,long)=>{
       window.open(`https://www.google.com/maps?q=${lat},${long}`);
+    },
+    cleanFecha:(fecha)=>{
+      return fecha.replace('T00:00:00.000Z','')
     }
 };
 
