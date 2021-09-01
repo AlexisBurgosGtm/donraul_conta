@@ -133,5 +133,14 @@ bottom: 15px;
 }
 
 /* FIN DIV LATERAL QUE APARECE */
+.negrita {
+    font-weight:bold;
+}
 
+.text-campesino{
+    color: rgb(211, 87, 30)
+}
 
+.bg-amarillo {
+    background-color: rgba(241, 241, 191, 0.959);
+}

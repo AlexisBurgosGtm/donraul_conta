@@ -63,37 +63,96 @@ function getView(){
                             <h5 class="modal-title" id="">Detalle de la Nueva Partida</h5>
                         </div>
                         <div class="modal-body">
+
                             <div class="row">
-                                <div class="col-lg-3 col-xl-3 col-sm-6 col-md-3">
+                                <div class="col-6">
                                     <div class="form-group">
-                                        <label>Fecha</label>
+                                        <label class="negrita">Fecha</label>
                                         <input type="date" class="form-control" id="txtPFecha">
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-xl-3 col-sm-6 col-md-3">
+                                <div class="col-6">
                                     <div class="form-group">
-                                        <label>No.</label>
+                                        <label class="negrita">Documento</label>
+                                        <input type="number" class="form-control bg-amarillo" id="txtPNumero">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="solid">
+
+                            <label class="text-campesino">Selección de la Póliza</label>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-xl-3 col-sm-2 col-md-3">
+                                    <div class="form-group">
+                                        <label class="negrita">No.</label>
                                         <input type="number" class="form-control" id="txtPNoPoliza">
                                     </div>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-9 col-lg-9 col-md-6 col-sm-10">
                                     <div class="form-group">
-                                        <label>Póliza</label>
+                                        <label class="negrita">Póliza</label>
                                         <select class="form-control" id="cmbPolizas">
                                         
                                         </select>
                                     </div>    
                                 </div>
                             </div>
+
+                            <hr class="solid">
+                            <label class="text-campesino">Selección de la cuenta contable</label>
                             
                             <div class="row">
-                                
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label class="negrita">Código</label>
+                                        <select class="form-control" id="cmbPCodCuenta">
                                         
-
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label class="negrita">Cuenta</label>
+                                        <select class="form-control" id="cmbPDesCuenta">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <hr class="solid">
+                            <label class="text-campesino">Detalle del movimiento</label>
 
-
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="negrita">Descripción</label>
+                                        <input type="text" class="form-control" id="txtPDescripcion">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="solid">
+                            
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label class="negrita">DEBE</label>
+                                        <input type="text" class="form-control negrita border-success" id="txtPDebe">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label class="negrita">HABER</label>
+                                        <input type="text" class="form-control negrita border-danger" id="txtPHaber">
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+
                         <div class="modal-footer">
                             
                             <div class="row">
@@ -214,6 +273,18 @@ function addListeners(){
         $('#modalNuevo').modal('show');
     });
 
+    let cmbPCodCuenta = document.getElementById('cmbPCodCuenta');
+    let cmbPDesCuenta = document.getElementById('cmbPDesCuenta');
+  
+    cmbPCodCuenta.addEventListener('change',()=>{
+        cmbPDesCuenta.value = cmbPCodCuenta.value;
+    });
+
+    cmbPDesCuenta.addEventListener('change',()=>{
+        cmbPCodCuenta.value = cmbPDesCuenta.value;
+    });
+
+    //GUARDADO DE LA PARTIDA
     let btnGuardar = document.getElementById('btnGuardar');
     btnGuardar.addEventListener('click',()=>{
         funciones.Confirmacion('¿Está seguro que desea Guardar esta Partida?')
@@ -227,6 +298,8 @@ function addListeners(){
     });
 
     getListado('tblPartidas');
+
+    getCuentas('cmbPCodCuenta','cmbPDesCuenta');
        
 };
 
@@ -248,6 +321,40 @@ function insertPartida(){
 
 };
 
+function getCuentas(idContenedorCodigos, idContenedorDescripciones){
+
+    let container = document.getElementById(idContenedorCodigos);
+    container.innerHTML = GlobalLoader;
+
+    let containerDesc = document.getElementById(idContenedorDescripciones);
+    containerDesc.innerHTML = GlobalLoader;
+
+    let strdata = ''; 
+    let strDesc = '';
+
+    axios.post('/cuentas/listado', {
+        empnit:GlobalEmpnit,
+        activo:'SI'
+    })
+    .then((response) => {
+        const data = response.data.recordset;
+        data.map((rows)=>{                    
+                    strdata = strdata + `<option value="${rows.CODIGO}">${rows.CODIGO}</option>`;
+                    strDesc = strDesc + `<option value="${rows.CODIGO}">${rows.DESCRIPCION}</option>`;             
+        })
+        container.innerHTML = strdata;
+        containerDesc.innerHTML = strDesc;
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        strdata = ''; strDesc = '';
+        container.innerHTML = 'No se pudo cargar la lista';
+        containerDesc.innerHTML ='No se pudo cargar la lista';
+    });
+    
+
+};
+
+
 function getPolizas(idContainer){
     let container = document.getElementById(idContainer);
     container.innerHTML = GlobalLoader;
@@ -267,6 +374,11 @@ function getPolizas(idContainer){
                     `             
         })
         container.innerHTML = strdata;
+        try {
+            document.getElementById('txtPNoPoliza').value= container.value;
+        } catch (error) {
+            
+        }
     }, (error) => {
         funciones.AvisoError('Error en la solicitud');
         strdata = '';

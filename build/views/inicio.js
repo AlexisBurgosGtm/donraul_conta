@@ -54,7 +54,7 @@ function getView(){
                             <div id="btnCompras" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow" data-dismiss="modal">
                                 <div class="">
                                     <h1 class="display-5 d-block l-h-n m-0 fw-500">
-                                        Libro de Compras
+                                        Libro de Compra
                                     </h1>
                                     <small class="m-0 l-h-n">Explicación</small>
                                 </div>
