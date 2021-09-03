@@ -176,10 +176,10 @@ function getView(){
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">P/D</label>
-                                        <selected class="form-control" id="cmbPDE">
+                                        <select class="form-control" id="cmbPDE">
                                             <option value="P">A</option>
                                             <option value="D">D</option>
-                                        </selected>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +191,7 @@ function getView(){
                                     <option value="2">Nivel 2</option>
                                     <option value="3">Nivel 3</option>
                                     <option value="4">Nivel 4</option>
+                                    <option value="5">Nivel 5</option>
                                 </select>
                             </div>
 
@@ -369,7 +370,8 @@ function getListado(idContenedor){
                     <td>${rows.ESTFIN}</td>
                     <td>${rows.TIPOEF}</td>
                     <td>
-                        <button class="btn btn-info btn-sm btn-circle" onclick="editarCuenta(${rows.ID},'${rows.CODIGO}','${rows.DESCRIPCION}','${rows.NIVEL}')">
+                        <button class="btn btn-info btn-sm btn-circle" 
+                        onclick="editarCuenta(${rows.ID},'${rows.CODIGO}','${rows.DESCRIPCION}','${rows.NIVEL}','${rows.DA}','${rows.PD}','${rows.ESTFIN}','${rows.TIPOEF}')">
                             <i class="fal fa-edit"></i>
                         </button>
                     </td>
@@ -418,13 +420,17 @@ function insertCuenta(codigo,descripcion,nivel,da,pd,estfin,tipoef){
 };
 
 
-function editarCuenta(id,codigo,descripcion,nivel){
+function editarCuenta(id,codigo,descripcion,nivel,da,pd,estfin,tipoef){
 
     
    document.getElementById('txtIdE').value=id;
    document.getElementById('txtCodE').value=codigo;
    document.getElementById('txtDescripcionE').value=descripcion;
    document.getElementById('cmbNivelE').value=nivel;
+   document.getElementById('cmbDAE').value = da;
+   document.getElementById('cmbPDE').value = pd;
+   document.getElementById('cmbEstFinE').value = estfin;
+   document.getElementById('cmbTipoEFE').value = tipoef;
 
    $('#modalEdit').modal('show');
 

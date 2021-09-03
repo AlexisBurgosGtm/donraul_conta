@@ -38,6 +38,8 @@ router.post("/edit", async(req,res)=>{
 				DA='${da}',PD='${pd}',ESTFIN='${estfin}',TIPOEF='${tipoef}' 
 				WHERE ID=${id} `;
 	
+				console.log(qry);
+				
 	execute.Query(res,qry);
 
 });
