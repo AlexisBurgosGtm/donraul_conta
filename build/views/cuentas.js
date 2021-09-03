@@ -23,8 +23,12 @@ function getView(){
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <td>Código</td>
-                                        <td>Cuenta</td>
+                                        <td>Cuenta</td>                                     
+                                        <td>D/A</td>
+                                        <td>P/D</td>
                                         <td>Nivel</td>
+                                        <td>Est Fin</td>
+                                        <td>Tipo EF</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -60,6 +64,28 @@ function getView(){
                                 <label>Descripción</label>
                                 <input autocomplete="off" type="text" class="form-control" id="txtDescripcion">
                             </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">D/A</label>
+                                        <selected class="form-control" id="cmbDA">
+                                            <option value="A">A</option>
+                                            <option value="D">D</option>
+                                        </selected>
+                                    </div>    
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">P/D</label>
+                                        <selected class="form-control" id="cmbPD">
+                                            <option value="P">A</option>
+                                            <option value="D">D</option>
+                                        </selected>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="form-group">
                                 <label>Nivel</label>
                                 <select class="form-control col-6" id="cmbNivel">
@@ -67,7 +93,34 @@ function getView(){
                                     <option value="2">Nivel 2</option>
                                     <option value="3">Nivel 3</option>
                                     <option value="4">Nivel 4</option>
+                                    <option value="5">Nivel 5</option>
                                 </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Est Fin</label>
+                                        <selected class="form-control" id="cmbEstFin">
+                                            <option value="ACTIVO">ACTIVO</option>
+                                            <option value="CAPITAL">CAPITAL</option>
+                                            <option value="COSTOS">COSTOS</option>
+                                            <option value="GASTOS">GASTOS</option>
+                                            <option value="INGRESOS">INGRESOS</option>
+                                            <option value="PASIVO">PASIVO</option>
+                                        </selected>
+                                    </div>    
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Tipo EF</label>
+                                        <selected class="form-control" id="cmbTipoEF">
+                                            <option value="BG">BG</option>
+                                            <option value="CP">CP</option>
+                                            <option value="ER">ER</option>
+                                        </selected>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -108,6 +161,29 @@ function getView(){
                                 <label>Descripción</label>
                                 <input autocomplete="off" type="text" class="form-control" id="txtDescripcionE">
                             </div>
+
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">D/A</label>
+                                        <selected class="form-control" id="cmbDAE">
+                                            <option value="A">A</option>
+                                            <option value="D">D</option>
+                                        </selected>
+                                    </div>    
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">P/D</label>
+                                        <selected class="form-control" id="cmbPDE">
+                                            <option value="P">A</option>
+                                            <option value="D">D</option>
+                                        </selected>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Nivel</label>
                                 <select class="form-control col-6" id="cmbNivelE">
@@ -117,6 +193,33 @@ function getView(){
                                     <option value="4">Nivel 4</option>
                                 </select>
                             </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Est Fin</label>
+                                        <selected class="form-control" id="cmbEstFinE">
+                                            <option value="ACTIVO">ACTIVO</option>
+                                            <option value="CAPITAL">CAPITAL</option>
+                                            <option value="COSTOS">COSTOS</option>
+                                            <option value="GASTOS">GASTOS</option>
+                                            <option value="INGRESOS">INGRESOS</option>
+                                            <option value="PASIVO">PASIVO</option>
+                                        </selected>
+                                    </div>    
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Tipo EF</label>
+                                        <selected class="form-control" id="cmbTipoEFE">
+                                            <option value="BG">BG</option>
+                                            <option value="CP">CP</option>
+                                            <option value="ER">ER</option>
+                                        </selected>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="modal-footer">
@@ -161,12 +264,16 @@ function addListeners(){
         let txtCodigo = document.getElementById('txtCod');
         let txtDescripcion = document.getElementById('txtDescripcion');
         let cmbNivel = document.getElementById('cmbNivel');
+        let cmbDA = document.getElementById('cmbDA');
+        let cmbPD = document.getElementById('cmbPD');
+        let cmbEstFin = document.getElementById('cmbEstFin');
+        let cmbTipoEF = document.getElementById('cmbTipoEF');
 
         funciones.Confirmacion('¿Está seguro que desea guardar esta Cuenta?')
         .then((value)=>{
             if(value==true){
                 
-                insertCuenta(txtCodigo.value, txtDescripcion.value,cmbNivel.value)
+                insertCuenta(txtCodigo.value, txtDescripcion.value,cmbNivel.value,cmbDA.value,cmbPD.value,cmbEstFin.value,cmbTipoEF.value)
                 .then(()=>{
                     $('#modalNuevo').modal('hide');
                     funciones.Aviso('Cuenta guardada exitosamente !!');
@@ -197,12 +304,17 @@ function addListeners(){
         let txtCodigo = document.getElementById('txtCodE');
         let txtDescripcion = document.getElementById('txtDescripcionE');
         let cmbNivel = document.getElementById('cmbNivelE');
+        let cmbDA = document.getElementById('cmbDAE');
+        let cmbPD = document.getElementById('cmbPDE');
+        let cmbEstFin = document.getElementById('cmbEstFinE');
+        let cmbTipoEF = document.getElementById('cmbTipoEFE');
+       
 
         funciones.Confirmacion('¿Está seguro que desea EDITAR esta Cuenta?')
         .then((value)=>{
             if(value==true){
                 
-                editCuenta(txtIdE.value,txtCodigo.value, txtDescripcion.value,cmbNivel.value)
+                editCuenta(txtIdE.value,txtCodigo.value, txtDescripcion.value,cmbNivel.value,cmbDA.value,cmbPD.value,cmbEstFin.value,cmbTipoEF.value)
                 .then(()=>{
                     $('#modalEdit').modal('hide');
                     funciones.Aviso('Cuenta actualizada exitosamente !!');
@@ -251,7 +363,11 @@ function getListado(idContenedor){
                     strdata = strdata + `<tr class=''>
                     <td>${rows.CODIGO}</td>
                     <td>${rows.DESCRIPCION}</td>
+                    <td>${rows.DA}</td>
+                    <td>${rows.PD}</td>
                     <td>${rows.NIVEL}</td>
+                    <td>${rows.ESTFIN}</td>
+                    <td>${rows.TIPOEF}</td>
                     <td>
                         <button class="btn btn-info btn-sm btn-circle" onclick="editarCuenta(${rows.ID},'${rows.CODIGO}','${rows.DESCRIPCION}','${rows.NIVEL}')">
                             <i class="fal fa-edit"></i>
@@ -276,13 +392,17 @@ function getListado(idContenedor){
 
 };
 
-function insertCuenta(codigo,descripcion,nivel){
+function insertCuenta(codigo,descripcion,nivel,da,pd,estfin,tipoef){
     return new Promise((resolve,reject)=>{
         axios.post('/cuentas/insert',{
            empnit:GlobalEmpnit,
            cod:codigo,
            descripcion:descripcion,
-           nivel:nivel
+           nivel:nivel,
+           da:da,
+           pd:pd,
+           estfin:estfin,
+           tipoef:tipoef
         })
         .then((response) => {
             let data = response.data;
@@ -310,14 +430,18 @@ function editarCuenta(id,codigo,descripcion,nivel){
 
 };
 
-function editCuenta(id,codigo,descripcion,nivel){
+function editCuenta(id,codigo,descripcion,nivel,da,pd,estfin,tipoef){
     return new Promise((resolve,reject)=>{
         axios.post('/cuentas/edit',{
            empnit:GlobalEmpnit,
            id:id,
            cod:codigo,
            descripcion:descripcion,
-           nivel:nivel
+           nivel:nivel,
+           da:da,
+           pd:pd,
+           estfin:estfin,
+           tipoef:tipoef
         })
         .then((response) => {
             let data = response.data;

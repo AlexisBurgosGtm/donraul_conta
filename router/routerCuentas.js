@@ -7,7 +7,7 @@ router.post("/listado", async(req,res)=>{
 	
 	const {empnit,activo} = req.body;
 
-	let qry = `SELECT ID,CODCUENTA AS CODIGO,DESCRIPCION,NIVEL,ACTIVO FROM DRC_CUENTAS
+	let qry = `SELECT ID,CODCUENTA AS CODIGO,DESCRIPCION,DA,PD,NIVEL,ESTFIN,TIPOEF,ACTIVO FROM DRC_CUENTAS
 	WHERE EMPNIT='${empnit}' AND ACTIVO='${activo}' 
 	ORDER BY CODCUENTA` ;
 		
@@ -18,11 +18,11 @@ router.post("/listado", async(req,res)=>{
 
 router.post("/insert", async(req,res)=>{
 	
-	const {empnit,cod,descripcion,nivel} = req.body;
+	const {empnit,cod,descripcion,nivel,da,pd,estfin,tipoef} = req.body;
 
 	let qry = `INSERT INTO DRC_CUENTAS 
-	(EMPNIT,CODCUENTA,DESCRIPCION,NIVEL,ACTIVO) 
-	VALUES ('${empnit}','${cod}','${descripcion}',${nivel},'SI')`;
+	(EMPNIT,CODCUENTA,DESCRIPCION,NIVEL,ACTIVO,DA,PD,ESTFIN,TIPOEF) 
+	VALUES ('${empnit}','${cod}','${descripcion}',${nivel},'SI','${da}','${pd}','${estfin}','${tipoef}')`;
 	
 	execute.Query(res,qry);
 
@@ -30,10 +30,12 @@ router.post("/insert", async(req,res)=>{
 
 router.post("/edit", async(req,res)=>{
 	
-	const {empnit,id,cod,descripcion,nivel} = req.body;
+	const {empnit,id,cod,descripcion,nivel,da,pd,estfin,tipoef} = req.body;
 	console.log(req.body);
 
-	let qry = `UPDATE DRC_CUENTAS SET EMPNIT='${empnit}',CODCUENTA='${cod}',DESCRIPCION='${descripcion}',NIVEL=${nivel} 
+	let qry = `UPDATE DRC_CUENTAS SET EMPNIT='${empnit}',CODCUENTA='${cod}',
+				DESCRIPCION='${descripcion}',NIVEL=${nivel},
+				DA='${da}',PD='${pd}',ESTFIN='${estfin}',TIPOEF='${tipoef}' 
 				WHERE ID=${id} `;
 	
 	execute.Query(res,qry);
