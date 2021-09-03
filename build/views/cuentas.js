@@ -69,19 +69,19 @@ function getView(){
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">D/A</label>
-                                        <selected class="form-control" id="cmbDA">
+                                        <select class="form-control" id="cmbDA">
                                             <option value="A">A</option>
                                             <option value="D">D</option>
-                                        </selected>
+                                        </select>
                                     </div>    
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">P/D</label>
-                                        <selected class="form-control" id="cmbPD">
+                                        <select class="form-control" id="cmbPD">
                                             <option value="P">A</option>
                                             <option value="D">D</option>
-                                        </selected>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -101,24 +101,24 @@ function getView(){
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">Est Fin</label>
-                                        <selected class="form-control" id="cmbEstFin">
+                                        <select class="form-control" id="cmbEstFin">
                                             <option value="ACTIVO">ACTIVO</option>
                                             <option value="CAPITAL">CAPITAL</option>
                                             <option value="COSTOS">COSTOS</option>
                                             <option value="GASTOS">GASTOS</option>
                                             <option value="INGRESOS">INGRESOS</option>
                                             <option value="PASIVO">PASIVO</option>
-                                        </selected>
+                                        </select>
                                     </div>    
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">Tipo EF</label>
-                                        <selected class="form-control" id="cmbTipoEF">
+                                        <select class="form-control" id="cmbTipoEF">
                                             <option value="BG">BG</option>
                                             <option value="CP">CP</option>
                                             <option value="ER">ER</option>
-                                        </selected>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -167,10 +167,10 @@ function getView(){
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">D/A</label>
-                                        <selected class="form-control" id="cmbDAE">
+                                        <select class="form-control" id="cmbDAE">
                                             <option value="A">A</option>
                                             <option value="D">D</option>
-                                        </selected>
+                                        </select>
                                     </div>    
                                 </div>
                                 <div class="col-6">
@@ -198,24 +198,24 @@ function getView(){
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">Est Fin</label>
-                                        <selected class="form-control" id="cmbEstFinE">
+                                        <select class="form-control" id="cmbEstFinE">
                                             <option value="ACTIVO">ACTIVO</option>
                                             <option value="CAPITAL">CAPITAL</option>
                                             <option value="COSTOS">COSTOS</option>
                                             <option value="GASTOS">GASTOS</option>
                                             <option value="INGRESOS">INGRESOS</option>
                                             <option value="PASIVO">PASIVO</option>
-                                        </selected>
+                                        </select>
                                     </div>    
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="negrita">Tipo EF</label>
-                                        <selected class="form-control" id="cmbTipoEFE">
+                                        <select class="form-control" id="cmbTipoEFE">
                                             <option value="BG">BG</option>
                                             <option value="CP">CP</option>
                                             <option value="ER">ER</option>
-                                        </selected>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
