@@ -3,33 +3,34 @@ function getView(){
         tabs :()=>{
             return `
             <div class="panel-container show">
-                <div class="row">
-                    <div class="col-5">
-                        <select class="form-control" id="cmbMes"></select>
-                    </div>
-                    <div class="col-5">
-                        <select class="form-control" id="cmbAnio"></select>
-                    </div>
-                </div>
-
+                
                 <div class="panel-content">
                     <ul class="nav nav-pills nav-justified" style="height:0cm;" role="tablist">
                         <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link active" data-toggle="tab" href="#panelListado" id="btnTabListado">L</a></li>
                         <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link" data-toggle="tab" href="#panelPolizas" id="btnTabPolizas">P</a></li>
-                        <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link" data-toggle="tab" href="#panelCliente" id="btnTabCliente">x</a></li>
+                        <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link" data-toggle="tab" href="#panelNuevaPartida" id="btnTabPartida">x</a></li>
                     </ul>
                     <div class="tab-content py-2">
 
                         <div class="tab-pane fade active show" id="panelListado" role="tabpanel">
-                            ${view.listado() + view.modalNuevo() + view.modalNuevaPoliza()}
+                            <div class="row">
+                                <div class="col-5">
+                                    <select class="form-control" id="cmbMes"></select>
+                                </div>
+                                <div class="col-5">
+                                    <select class="form-control" id="cmbAnio"></select>
+                                </div>
+                            </div>
+
+                            ${view.listado() + view.modalNuevaPoliza()}
                         </div>
                         
                         <div class="tab-pane fade" id="panelPolizas" role="tabpanel">
                             ${view.listadoPoliza()}
                         </div>
 
-                        <div class="tab-pane fade" id="panelCliente" role="tabpanel">
-                           
+                        <div class="tab-pane fade" id="panelNuevaPartida" role="tabpanel">
+                           ${view.nuevaPartida()}
                         </div>
    
                     </div>
@@ -83,6 +84,129 @@ function getView(){
                 </div>
             </div>
             `
+        },
+        nuevaPartida: ()=>{
+            return `
+            <div class="row">
+                <div class="card p-2 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <label class="text-campesino">Seleccione la Póliza</label>
+
+                    <div class="row">
+                        <div class="col-lg-3 col-xl-3 col-sm-2 col-md-3">
+                            <div class="form-group">
+                                <label class="negrita">No.</label>
+                                <input type="number" class="form-control form-control-sm" id="txtPNoPoliza">
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-9 col-md-6 col-sm-10">
+                            <div class="form-group">
+                                <label class="negrita">Póliza</label>
+                                <select class="form-control form-control-sm" id="cmbPolizas">
+                                        
+                                </select>
+                            </div>    
+                        </div>
+                    </div>
+                                                        
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="negrita">Fecha</label>
+                                <input type="date" class="form-control form-control-sm" id="txtPFecha">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="negrita">Documento</label>
+                                <input type="number" class="form-control form-control-sm bg-amarillo" id="txtPNumero">
+                            </div>
+                        </div>
+                    </div>                                      
+        
+                    <label class="text-campesino">Detalle del movimiento</label>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="negrita">Descripción</label>
+                                <input type="text" class="form-control form-control-sm" id="txtPDescripcion">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-2 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <label class="text-campesino">Selección de la cuenta contable</label>
+                            
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="negrita">Código</label>
+                                <select class="form-control form-control-sm" id="cmbPCodCuenta">
+                                        
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label class="negrita">Cuenta</label>
+                                <select class="form-control form-control-sm" id="cmbPDesCuenta">
+                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                            
+                    <hr class="solid">
+                        
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="negrita">DEBE</label>
+                                <input type="text" class="form-control negrita border-success" id="txtPDebe">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="negrita">HABER</label>
+                                <input type="text" class="form-control negrita border-danger" id="txtPHaber">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-success btn-xl btn-circle shadow" id="btnGuardar">
+                                <i class="fal fa-save"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-responsive table-hover table-striped">
+                        <thead class="bg-trans-gradient text-white">
+                            <tr>
+                                <td>DOCUMENTO</td>
+                                <td>CUENTA</td>
+                                <td>DESCRIPCION</td>
+                                <td>DEBE</td>
+                                <td>HABER</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tblPartida">
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="fixed-left">
+                <button class="btn btn-outline-secondary btn-circle btn-xl shadow" id="btnAtrasPartida">
+                    <i class="fal fa-arrow-left"></i>
+                </button>        
+            </div>
+                                `
         },
         modalNuevo:()=>{
             return `
@@ -293,6 +417,7 @@ function getView(){
     };
 
     root.innerHTML = view.tabs();
+
 };
 
 function addListeners(){
@@ -309,7 +434,7 @@ function addListeners(){
     //navegacion
     document.getElementById('btnListaPolizas').addEventListener('click',()=>{document.getElementById('btnTabPolizas').click()})
     document.getElementById('btnListado').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
-    
+    document.getElementById('btnAtrasPartida').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
 
     //POLIZAS
     let cmbPolizas = document.getElementById('cmbPolizas');
@@ -349,7 +474,8 @@ function addListeners(){
 
     let btnNuevo = document.getElementById('btnNuevo');
     btnNuevo.addEventListener('click',()=>{
-        $('#modalNuevo').modal('show');
+        //$('#modalNuevo').modal('show');
+        document.getElementById('btnTabPartida').click()
     });
 
     let cmbPCodCuenta = document.getElementById('cmbPCodCuenta');
@@ -373,7 +499,7 @@ function addListeners(){
                 let documento = document.getElementById('txtPNumero').value;
                 let nopoliza = document.getElementById('txtPNoPoliza').value;
                 let codcuenta = document.getElementById('cmbPCodCuenta').value;
-                let descripcion = document.getElementById('txtPDescripcion').value;
+                let descripcion = document.getElementById('txtPDescripcion').value || 'SN';
                 let debe = document.getElementById('txtPDebe').value || '0';
                 let haber = document.getElementById('txtPHaber').value || '0';
                 
@@ -384,14 +510,19 @@ function addListeners(){
                 .then(()=>{
                     funciones.Aviso('Movimiento registrado exitosamente!!');
                     getListado('tblPartidas');
+                    
                     cleanPartidaData();
-                    $('#modalNuevo').modal('hide');
-                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>GUARDAR';
+
+                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>';
                     btnGuardar.disabled = false;
+                    //$('#modalNuevo').modal('hide');
+                    getListado3('tblPartida','cmbPolizas');
+
+                    
                 })
                 .catch(()=>{
                     funciones.AvisoError('No se pudo guardar este movimiento');
-                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>GUARDAR';
+                    btnGuardar.innerHTML = '<i class="fal fa-save"></i>';
                     btnGuardar.disabled = false;
                 })
 
@@ -482,6 +613,46 @@ function getListado2(idContainer,idCmbPoliza){
         data.map((rows)=>{                    
                     strdata = strdata + `<tr class=''>
                     <td>${funciones.cleanFecha(rows.FECHA)}</td>
+                    <td class="negrita">${rows.NOPARTIDA}</td>
+                    <td>${rows.DESCUENTA}
+                        <br>
+                        <small class="text-campesino negrita">${rows.CODCUENTA}</small>
+                    </td>
+                    <td>${rows.DESCRIPCION}</td>
+                    <td>${funciones.setMoneda(rows.DEBE,'Q')}</td>
+                    <td>${funciones.setMoneda(rows.HABER,'Q')}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm btn-circle" onclick="">
+                            <i class="fal fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`             
+        })
+        container.innerHTML = strdata;
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        strdata = '';
+        container.innerHTML = 'No se pudo cargar la lista';
+    });
+    
+};
+
+function getListado3(idContainer,idCmbPoliza){
+
+    let container = document.getElementById(idContainer);
+    container.innerHTML = GlobalLoader;
+    let nopoliza = document.getElementById(idCmbPoliza);
+
+    let strdata = ''; 
+
+    axios.post('/diario/partidas_listado_poliza', {
+        empnit:GlobalEmpnit,
+        nopoliza:nopoliza.value
+    })
+    .then((response) => {
+        const data = response.data.recordset;
+        data.map((rows)=>{                    
+                    strdata = strdata + `<tr class=''>
                     <td class="negrita">${rows.NOPARTIDA}</td>
                     <td>${rows.DESCUENTA}
                         <br>

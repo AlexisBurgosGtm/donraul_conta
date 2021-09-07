@@ -1,31 +1,5 @@
 //const socket = io();
 
-let cmbEmpresas = document.getElementById('cmbEmpresas');
-cmbEmpresas.addEventListener('change', ()=>{
-    GlobalEmpnit = cmbEmpresas.value;
-    try {
-        getListado('tblCuentas');
-    } catch (error) {
-        
-    };
-    try {
-        if(GlobalEmpnit=='101792069'){
-            document.getElementById('imgLogoInicio').src ='./favicon.png';
-        };
-        if(GlobalEmpnit=='55977146'){
-            document.getElementById('imgLogoInicio').src ='./favicon2.png';
-        };
-    } catch (error) {    
-    };
-    try {
-        getPolizas('cmbPolizas','cmbPolizasLista');
-    } catch (error) {
-        
-    };
-
-});
-
-cmbEmpresas.style = 'visibility: hidden';
 
 let btnMenu = document.getElementById('btnMenu');
 let btnMenuCerrar = document.getElementById('btnMenuCerrar');

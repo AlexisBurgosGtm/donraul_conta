@@ -3,9 +3,7 @@ function getView(){
         encabezado:()=>{
             return `
             <div class="card col-12">
-                <div class="card-header bg-trans-gradient text-white">
-                    <h3>Ventana de Inicio</h3>
-                </div>
+                
                 <div class="card-body">
                     <img class="" src="./img/logo.png" width="100" height="100" id="imgLogoInicio">
                

@@ -34,12 +34,26 @@ left: 21px;
 bottom: 15px;
 }
 
+.fixed-left { 
+    position: fixed;
+    z-index: 1088;
+    left: 21px;
+    bottom: 15px;
+}
+
 .hand {
     cursor: pointer;
 }
 
 /* BOTON FLOTANTE ESQUINA DERECHA */
 #fixed-btn2 { 
+    position: fixed;
+    z-index: 1088;
+    right: 21px;
+    bottom: 15px;
+}
+
+.fixed-right { 
     position: fixed;
     z-index: 1088;
     right: 21px;

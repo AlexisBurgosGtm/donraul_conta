@@ -7,6 +7,13 @@ function getView(){
                     <img src="./img/logo.png" width="70" height="70">
                 </div>
                 <div class="card-body">
+                    <div class="form-group">
+                        <select class="form-control" id="cmbEmpresas">
+                            <option value="55977464">MAYAS DEL PACIFICO S.A.</option>
+                            <option value="101792069">CONSTRUMATERIALES EL CAMPESINO</option>
+                            <option value="55977146">BLOCKERA DON RAUL</option>
+                        </select>
+                    </div>
                     
                     <div class="form-group">
                         <label>Usuario</label>
@@ -43,10 +50,12 @@ function addListeners(){
         btnIniciar.innerHTML = '<i class="fal fa-lock fa-spin"></i>';
         log()
         .then(()=>{
+            GlobalEmpnit = document.getElementById('cmbEmpresas').value;
             funciones.showToast('Bienvenido ' + GlobalUsuario)
             classNavegar.inicio();    
         })
         .catch(()=>{
+            GlobalEmpnit ='';
             btnIniciar.disabled= false;
             btnIniciar.innerHTML = '<i class="fal fa-lock"></i> Ingresar';
             funciones.AvisoError('Usuario o Contraseña incorrectos')
