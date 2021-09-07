@@ -39,12 +39,16 @@ function addListeners(){
 
     let btnIniciar = document.getElementById('btnIniciar')
     btnIniciar.addEventListener('click',()=>{
+        btnIniciar.disabled = true;
+        btnIniciar.innerHTML = '<i class="fal fa-lock fa-spin"></i>';
         log()
         .then(()=>{
             funciones.showToast('Bienvenido ' + GlobalUsuario)
             classNavegar.inicio();    
         })
         .catch(()=>{
+            btnIniciar.disabled= false;
+            btnIniciar.innerHTML = '<i class="fal fa-lock"></i> Ingresar';
             funciones.AvisoError('Usuario o Contraseña incorrectos')
         })
 

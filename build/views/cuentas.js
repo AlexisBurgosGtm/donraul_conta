@@ -9,7 +9,7 @@ function getView(){
                 <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <input type="text" class="form-control border-info shadow" id="txtBuscar">
+                                <input type="text" class="form-control border-info shadow" id="txtBuscar" placeholder="Escriba para buscar...">
                             </div>
                             <div class="col-6 text-right">
                                 <button class="btn btn-success btn-xl btn-circle shadow" id="btnNuevo">
@@ -19,7 +19,7 @@ function getView(){
                         </div>
                         
                         <div class="table-responsive col-12">
-                            <table class="table table-responsive table-bordered">
+                            <table class="table table-responsive table-bordered" id="tableCuentas">
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <td>Código</td>
@@ -334,7 +334,9 @@ function addListeners(){
 
     });
 
-
+    document.getElementById('txtBuscar').addEventListener('keydown',()=>{
+        funciones.FiltrarTabla('tableCuentas','txtBuscar');
+    })
     
     getListado('tblCuentas');
 
