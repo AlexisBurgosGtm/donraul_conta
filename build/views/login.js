@@ -10,12 +10,12 @@ function getView(){
                     
                     <div class="form-group">
                         <label>Usuario</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="txtU">
                     </div>
                     
                     <div class="form-group">
                         <label>Contraseña</label>
-                        <input type="password" class="form-control">
+                        <input type="password" class="form-control" id="txtC">
                     </div>
 
                     <div class="form-group">
@@ -39,7 +39,16 @@ function addListeners(){
 
     let btnIniciar = document.getElementById('btnIniciar')
     btnIniciar.addEventListener('click',()=>{
-        classNavegar.inicio();
+        log()
+        .then(()=>{
+            funciones.showToast('Bienvenido ' + GlobalUsuario)
+            classNavegar.inicio();    
+        })
+        .catch(()=>{
+            funciones.AvisoError('Usuario o Contraseña incorrectos')
+        })
+
+        
     });
 
 };
@@ -48,3 +57,29 @@ function InicializarVista(){
     getView();
     addListeners();
 }
+
+
+function log(){
+    let u = document.getElementById('txtU').value; let c = document.getElementById('txtC').value;
+
+    return new Promise((resolve,reject)=>{
+        axios.post('/login/login',{
+           empnit:GlobalEmpnit,
+           u:u,
+           c:c
+        })
+        .then((response) => {
+            let data = response.data;
+            if(Number(data.rowsAffected[0])>0){
+                GlobalUsuario = u;
+                resolve();             
+            }else{
+                GlobalUsuario = '';
+                reject();
+            }               
+        }, (error) => {
+            reject();
+        });
+    })
+
+};

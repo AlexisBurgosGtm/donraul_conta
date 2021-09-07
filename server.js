@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 const execute = require('./router/connection');
 var routerCuentas = require('./router/routerCuentas');
 var routerDiario = require('./router/routerDiario');
+var routerLogin = require('./router/routerLogin');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -52,6 +53,7 @@ app.get("/notify",function(req,res){
 //Routers
 app.use('/cuentas', routerCuentas);
 app.use('/diario', routerDiario);
+app.use('/login',routerLogin);
 
 
 app.use("/",router);
