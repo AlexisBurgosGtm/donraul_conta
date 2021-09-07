@@ -30,6 +30,7 @@ function getView(){
                                         <td>Est Fin</td>
                                         <td>Tipo EF</td>
                                         <td></td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 <tbody id="tblCuentas">

@@ -1,23 +1,52 @@
 function getView(){
     let view = {
+        tabs :()=>{
+            return `
+            <div class="panel-container show">
+                <div class="row">
+                    <div class="col-5">
+                        <select class="form-control" id="cmbMes"></select>
+                    </div>
+                    <div class="col-5">
+                        <select class="form-control" id="cmbAnio"></select>
+                    </div>
+                </div>
+
+                <div class="panel-content">
+                    <ul class="nav nav-pills nav-justified" style="height:0cm;" role="tablist">
+                        <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link active" data-toggle="tab" href="#panelListado" id="btnTabListado">L</a></li>
+                        <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link" data-toggle="tab" href="#panelPolizas" id="btnTabPolizas">P</a></li>
+                        <li class="nav-item hidden" style="height:0cm;" ><a class="nav-link" data-toggle="tab" href="#panelCliente" id="btnTabCliente">x</a></li>
+                    </ul>
+                    <div class="tab-content py-2">
+
+                        <div class="tab-pane fade active show" id="panelListado" role="tabpanel">
+                            ${view.listado() + view.modalNuevo() + view.modalNuevaPoliza()}
+                        </div>
+                        
+                        <div class="tab-pane fade" id="panelPolizas" role="tabpanel">
+                            ${view.listadoPoliza()}
+                        </div>
+
+                        <div class="tab-pane fade" id="panelCliente" role="tabpanel">
+                           
+                        </div>
+   
+                    </div>
+                </div>
+            </div>
+            `
+        },
         listado: ()=>{
             return `
             <div class="card shadow p-2">
                 <div class="card-header">
                     
                     <div class="row">
-                        <div class="col-5">
-                            <select class="form-control" id="cmbMes"></select>
-                        </div>
-                        <div class="col-5">
-                            <select class="form-control" id="cmbAnio"></select>
-                        </div>
-                    </div>
-
-                    <hr class="solid">
-                    
-                    <div class="row">
                         <div class="col-6">
+                            <button class="btn btn-outline-secondary btn-circle btn-xl" id="btnListaPolizas">
+                               <i class="fal fa-list"></i>
+                            </button>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-info btn-md shadow" id="btnNuevaPoliza">
@@ -215,10 +244,55 @@ function getView(){
                 </div>
             </div>
             `
+        },
+        listadoPoliza: ()=>{
+            return `
+            <div class="card shadow p-2">
+                <div class="card-header">
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <button class="btn btn-outline-secondary btn-circle btn-xl" id="btnListado">
+                                <i class="fal fa-arrow-left"></i>
+                            </button>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>Seleccione una Póliza</label>
+                                <select class="form-control" id="cmbPolizasLista">
+                                
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <td>FECHA</td>
+                                    <td>DOCUMENTO</td>
+                                    <td>CUENTA</td>
+                                    <td>DESCRIPCION</td>
+                                    <td>DEBE</td>
+                                    <td>HABER</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblPartidas2">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `
         }
     };
 
-    root.innerHTML = view.listado() + view.modalNuevo() + view.modalNuevaPoliza();
+    root.innerHTML = view.tabs();
 };
 
 function addListeners(){
@@ -232,6 +306,10 @@ function addListeners(){
     let f = new Date();
     cmbMes.value = f.getMonth()+1; cmbAnio.value = f.getFullYear();
 
+    //navegacion
+    document.getElementById('btnListaPolizas').addEventListener('click',()=>{document.getElementById('btnTabPolizas').click()})
+    document.getElementById('btnListado').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
+    
 
     //POLIZAS
     let cmbPolizas = document.getElementById('cmbPolizas');
@@ -256,7 +334,7 @@ function addListeners(){
                 insertPoliza(codigo,descripcion)
                 .then(()=>{
                     funciones.Aviso('Póliza creada exitosamente!!')
-                    getPolizas('cmbPolizas');
+                    getPolizas('cmbPolizas','cmbPolizasLista');
                     $('#modalNuevaPoliza').modal('hide');
                 })
 
@@ -264,7 +342,7 @@ function addListeners(){
         })
     });
 
-    getPolizas('cmbPolizas');
+    getPolizas('cmbPolizas','cmbPolizasLista');
 
     //PARTIDAS
     document.getElementById('txtPFecha').value = funciones.getFecha(); 
@@ -323,9 +401,19 @@ function addListeners(){
     });
 
     getListado('tblPartidas');
+    getListado2('tblPartidas2');
 
     getCuentas('cmbPCodCuenta','cmbPDesCuenta');
        
+    //listado por pólizas
+    let cmbPolizasLista = document.getElementById('cmbPolizasLista');
+    cmbPolizasLista.addEventListener('change',()=>{
+        getListado2('tblPartidas2','cmbPolizasLista');
+    })
+
+
+    //anima las tabs
+    funciones.slideAnimationTabs();
 };
 
 
@@ -352,6 +440,47 @@ function getListado(idContainer){
                         <br>
                         <small class="text-campesino negrita">Fecha: ${funciones.cleanFecha(rows.FECHA)}</small>
                     </td>
+                    <td class="negrita">${rows.NOPARTIDA}</td>
+                    <td>${rows.DESCUENTA}
+                        <br>
+                        <small class="text-campesino negrita">${rows.CODCUENTA}</small>
+                    </td>
+                    <td>${rows.DESCRIPCION}</td>
+                    <td>${funciones.setMoneda(rows.DEBE,'Q')}</td>
+                    <td>${funciones.setMoneda(rows.HABER,'Q')}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm btn-circle" onclick="">
+                            <i class="fal fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`             
+        })
+        container.innerHTML = strdata;
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        strdata = '';
+        container.innerHTML = 'No se pudo cargar la lista';
+    });
+    
+};
+
+function getListado2(idContainer,idpoliza){
+
+    let container = document.getElementById(idContainer);
+    container.innerHTML = GlobalLoader;
+    let idpoliza = document.getElementById(idpoliza);
+
+    let strdata = ''; 
+
+    axios.post('/diario/partidas_listado_poliza', {
+        empnit:GlobalEmpnit,
+        idpoliza:idpoliza.value
+    })
+    .then((response) => {
+        const data = response.data.recordset;
+        data.map((rows)=>{                    
+                    strdata = strdata + `<tr class=''>
+                    <td>${funciones.cleanFecha(rows.FECHA)}</td>
                     <td class="negrita">${rows.NOPARTIDA}</td>
                     <td>${rows.DESCUENTA}
                         <br>
@@ -449,10 +578,12 @@ function getCuentas(idContenedorCodigos, idContenedorDescripciones){
 };
 
 
-function getPolizas(idContainer){
+function getPolizas(idContainer,idContainer2){
     let container = document.getElementById(idContainer);
     container.innerHTML = GlobalLoader;
-            
+    let container2 = document.getElementById(idContainer2);
+    container2.innerHTML = GlobalLoader;        
+
     let strdata = ''; 
 
     axios.post('/diario/polizas_listado', {
@@ -468,6 +599,7 @@ function getPolizas(idContainer){
                     `             
         })
         container.innerHTML = strdata;
+        container2.innerHTML = strdata;
         try {
             document.getElementById('txtPNoPoliza').value= container.value;
         } catch (error) {
@@ -477,6 +609,7 @@ function getPolizas(idContainer){
         funciones.AvisoError('Error en la solicitud');
         strdata = '';
         container.innerHTML = '';
+        container2.innerHTML='';
     });
   
 };

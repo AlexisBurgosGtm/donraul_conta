@@ -4264,6 +4264,9 @@ th {
 .nav-tabs .nav-item.show .nav-link {
   color: #886ab5; }
 
+.nav-pills .nav-item nav-item2{
+  height:0cm;
+}
 .tooltip-inner {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
   font-weight: 500;

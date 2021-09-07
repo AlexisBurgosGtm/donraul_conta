@@ -18,7 +18,7 @@ cmbEmpresas.addEventListener('change', ()=>{
     } catch (error) {    
     };
     try {
-        getPolizas('cmbPolizas');
+        getPolizas('cmbPolizas','cmbPolizasLista');
     } catch (error) {
         
     };
