@@ -5,7 +5,7 @@ const execute = require('./connection');
 
 router.post("/login", async(req,res)=>{
 	
-	const {u,c = req.body;
+	const {u,c} = req.body;
 
     let qr = `SELECT USUARIO,CODDOC FROM COMMUNITY_USUARIOS WHERE USUARIO='${u}' AND CLAVE='${c}' `
 
