@@ -401,16 +401,17 @@ function addListeners(){
     });
 
     getListado('tblPartidas');
-    getListado2('tblPartidas2');
-
+  
     getCuentas('cmbPCodCuenta','cmbPDesCuenta');
-       
+  
+    
     //listado por pólizas
     let cmbPolizasLista = document.getElementById('cmbPolizasLista');
     cmbPolizasLista.addEventListener('change',()=>{
         getListado2('tblPartidas2','cmbPolizasLista');
     })
 
+    getListado2('tblPartidas2','cmbPolizasLista');
 
     //anima las tabs
     funciones.slideAnimationTabs();
@@ -464,17 +465,17 @@ function getListado(idContainer){
     
 };
 
-function getListado2(idContainer,idpoliza){
+function getListado2(idContainer,idCmbPoliza){
 
     let container = document.getElementById(idContainer);
     container.innerHTML = GlobalLoader;
-    let idpoliza = document.getElementById(idpoliza);
+    let nopoliza = document.getElementById(idCmbPoliza);
 
     let strdata = ''; 
 
     axios.post('/diario/partidas_listado_poliza', {
         empnit:GlobalEmpnit,
-        idpoliza:idpoliza.value
+        nopoliza:nopoliza.value
     })
     .then((response) => {
         const data = response.data.recordset;
