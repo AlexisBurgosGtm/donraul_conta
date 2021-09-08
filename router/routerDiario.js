@@ -3,6 +3,7 @@ const router = express.Router();
 const execute = require('./connection');
 
 
+// PARTIDAS
 router.post("/partidas_insert", async(req,res)=>{
 	
 	const {empnit,fecha,numero,nopoliza,codcuenta,descripcion,debe,haber} = req.body;
@@ -11,6 +12,17 @@ router.post("/partidas_insert", async(req,res)=>{
 	(EMPNIT,NOPOLIZA,FECHA,NOPARTIDA,CODCUENTA,DESCRIPCION,DEBE,HABER)
 	VALUES
 	('${empnit}',${nopoliza},'${fecha}','${numero}','${codcuenta}','${descripcion}',${debe},${haber})`;
+	
+	execute.Query(res,qry);
+
+});
+
+router.post("/partidas_delete", async(req,res)=>{
+	
+	const {empnit,id} = req.body;
+
+	let qry = `DELETE FROM DRC_PARTIDAS
+				WHERE ID=${id}; `;
 	
 	execute.Query(res,qry);
 
@@ -38,7 +50,8 @@ router.post('/partidas_listado_poliza', async(req, res) => {
 
 	let qry = `SELECT DRC_PARTIDAS.NOPOLIZA, 
 			DRC_POLIZAS.DESPOLIZA, 
-			DRC_POLIZAS.FECHA, 
+			DRC_POLIZAS.FECHA,
+			DRC_PARTIDAS.ID AS IDPARTIDA, 
 			DRC_PARTIDAS.NOPARTIDA, 
 			DRC_PARTIDAS.CODCUENTA, 
 			DRC_CUENTAS.DESCRIPCION AS DESCUENTA, 
