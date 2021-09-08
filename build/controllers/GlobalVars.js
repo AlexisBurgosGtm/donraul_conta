@@ -2,6 +2,7 @@
 
 let root = document.getElementById('root');
 
+let lbEmpresa = document.getElementById('lbEmpresa');
 
 let GlobalLoader2 = '<i class="fa fa-refresh fa-spin"></i>';
 let GlobalLoader = `

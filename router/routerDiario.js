@@ -36,15 +36,20 @@ router.post('/partidas_listado', async(req, res) => {
 router.post('/partidas_listado_poliza', async(req, res) => {
 	const {empnit,nopoliza} = req.body;
 
-	let qry = `SELECT DRC_PARTIDAS.NOPOLIZA, DRC_POLIZAS.DESPOLIZA, 
-			DRC_PARTIDAS.FECHA, DRC_PARTIDAS.NOPARTIDA, 
-			DRC_PARTIDAS.CODCUENTA, DRC_CUENTAS.DESCRIPCION AS DESCUENTA, 
+	let qry = `SELECT DRC_PARTIDAS.NOPOLIZA, 
+			DRC_POLIZAS.DESPOLIZA, 
+			DRC_POLIZAS.FECHA, 
+			DRC_PARTIDAS.NOPARTIDA, 
+			DRC_PARTIDAS.CODCUENTA, 
+			DRC_CUENTAS.DESCRIPCION AS DESCUENTA, 
 			DRC_PARTIDAS.DESCRIPCION, 
-			DRC_PARTIDAS.DEBE, DRC_PARTIDAS.HABER
+			DRC_PARTIDAS.DEBE, 
+			DRC_PARTIDAS.HABER
 		FROM DRC_PARTIDAS LEFT OUTER JOIN
 			DRC_POLIZAS ON DRC_PARTIDAS.NOPOLIZA = DRC_POLIZAS.NOPOLIZA AND DRC_PARTIDAS.EMPNIT = DRC_POLIZAS.EMPNIT LEFT OUTER JOIN
 			DRC_CUENTAS ON DRC_PARTIDAS.CODCUENTA = DRC_CUENTAS.CODCUENTA AND DRC_PARTIDAS.EMPNIT = DRC_CUENTAS.EMPNIT
-		WHERE (DRC_PARTIDAS.EMPNIT = '${empnit}') AND DRC_PARTIDAS.NOPOLIZA=${nopoliza}`;
+		WHERE (DRC_PARTIDAS.EMPNIT = '${empnit}') 
+		AND (DRC_PARTIDAS.NOPOLIZA=${nopoliza})`;
 
 		execute.Query(res,qry);
 
@@ -60,7 +65,7 @@ router.post("/polizas_listado", async(req,res)=>{
 	
 	const {empnit,activo} = req.body;
 
-	let qry = `SELECT ID,NOPOLIZA, DESPOLIZA FROM DRC_POLIZAS
+	let qry = `SELECT ID, NOPOLIZA, DESPOLIZA,FECHA FROM DRC_POLIZAS
 	WHERE EMPNIT='${empnit}' AND ACTIVO='${activo}' 
 	ORDER BY NOPOLIZA` ;
 		
@@ -71,11 +76,11 @@ router.post("/polizas_listado", async(req,res)=>{
 
 router.post("/polizas_insert", async(req,res)=>{
 	
-	const {empnit,codigo,descripcion} = req.body;
+	const {empnit,codigo,descripcion,fecha} = req.body;
 
 	let qry = `INSERT INTO DRC_POLIZAS 
-	(EMPNIT,NOPOLIZA,DESPOLIZA,ACTIVO) 
-	VALUES ('${empnit}','${codigo}','${descripcion}','SI')`;
+	(EMPNIT,FECHA,NOPOLIZA,DESPOLIZA,ACTIVO) 
+	VALUES ('${empnit}','${fecha}','${codigo}','${descripcion}','SI')`;
 	
 	execute.Query(res,qry);
 

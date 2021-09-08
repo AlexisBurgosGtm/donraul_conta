@@ -13,6 +13,7 @@ function getView(){
                     <div class="tab-content py-2">
 
                         <div class="tab-pane fade active show" id="panelListado" role="tabpanel">
+                            <h5>Pólizas del Mes</h5>
                             <div class="row">
                                 <div class="col-5">
                                     <select class="form-control" id="cmbMes"></select>
@@ -26,7 +27,7 @@ function getView(){
                         </div>
                         
                         <div class="tab-pane fade" id="panelPolizas" role="tabpanel">
-                            ${view.listadoPoliza()}
+                         
                         </div>
 
                         <div class="tab-pane fade" id="panelNuevaPartida" role="tabpanel">
@@ -41,46 +42,32 @@ function getView(){
         listado: ()=>{
             return `
             <div class="card shadow p-2">
-                <div class="card-header">
-                    
+                <button class="btn btn-info btn-md shadow" id="btnNuevaPoliza">
+                    <i class="fal fa-book"></i>Nueva Póliza
+                </button>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <button class="btn btn-outline-secondary btn-circle btn-xl" id="btnListaPolizas">
-                               <i class="fal fa-list"></i>
-                            </button>
-                        </div>
-                        <div class="col-3">
-                            <button class="btn btn-info btn-md shadow" id="btnNuevaPoliza">
-                                <i class="fal fa-book"></i>Nueva Póliza
-                            </button>
-                        </div>
-                        <div class="col-3">
-                            <button class="btn btn-success btn-md shadow" id="btnNuevo">
-                                <i class="fal fa-plus"></i>Nueva Partida
-                            </button>
+                            <input type="text" class="form-control" id="txtBuscarPoliza" placeholder="Escriba para buscar...">
                         </div>
                     </div>
-
-                </div>
-                <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-responsive table-hover table-striped">
+                        <table class="table table-responsive table-hover table-striped" id="tablePolizas">
                             <thead class="bg-trans-gradient text-white">
                                 <tr>
-                                    <td>POLIZA/FECHA</td>
-                                    <td>DOCUMENTO</td>
-                                    <td>CUENTA</td>
+                                    <td>FECHA</td>
+                                    <td>NUMERO</td>
                                     <td>DESCRIPCION</td>
-                                    <td>DEBE</td>
-                                    <td>HABER</td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             </thead>
-                            <tbody id="tblPartidas">
+                            <tbody id="tblPolizas">
                             
                             </tbody>
                         </table>
                     </div>
+               
                 </div>
             </div>
             `
@@ -88,7 +75,7 @@ function getView(){
         nuevaPartida: ()=>{
             return `
             <div class="row">
-                <div class="card p-2 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="card shadow p-4 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <label class="text-campesino">Seleccione la Póliza</label>
 
                     <div class="row">
@@ -98,12 +85,11 @@ function getView(){
                                 <input type="number" class="form-control form-control-sm" id="txtPNoPoliza">
                             </div>
                         </div>
-                        <div class="col-xl-9 col-lg-9 col-md-6 col-sm-10">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-10">
                             <div class="form-group">
                                 <label class="negrita">Póliza</label>
-                                <select class="form-control form-control-sm" id="cmbPolizas">
+                                <input type="text" class="form-control form-control-sm" id="cmbPolizas">
                                         
-                                </select>
                             </div>    
                         </div>
                     </div>
@@ -135,7 +121,7 @@ function getView(){
                     </div>
                 </div>
 
-                <div class="card p-2 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="card shadow p-4 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <label class="text-campesino">Selección de la cuenta contable</label>
                             
                     <div class="row">
@@ -182,7 +168,7 @@ function getView(){
             </div>
 
             <div class="row">
-                <div class="table-responsive">
+                <div class="table-responsive col-12">
                     <table class="table table-responsive table-hover table-striped">
                         <thead class="bg-trans-gradient text-white">
                             <tr>
@@ -208,127 +194,6 @@ function getView(){
             </div>
                                 `
         },
-        modalNuevo:()=>{
-            return `
-            <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-right modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success text-white">
-                            <h5 class="modal-title" id="">Detalle de la Nueva Partida</h5>
-                        </div>
-                        <div class="modal-body">
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label class="negrita">Fecha</label>
-                                        <input type="date" class="form-control" id="txtPFecha">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label class="negrita">Documento</label>
-                                        <input type="number" class="form-control bg-amarillo" id="txtPNumero">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="solid">
-
-                            <label class="text-campesino">Selección de la Póliza</label>
-
-                            <div class="row">
-                                <div class="col-lg-3 col-xl-3 col-sm-2 col-md-3">
-                                    <div class="form-group">
-                                        <label class="negrita">No.</label>
-                                        <input type="number" class="form-control" id="txtPNoPoliza">
-                                    </div>
-                                </div>
-                                <div class="col-xl-9 col-lg-9 col-md-6 col-sm-10">
-                                    <div class="form-group">
-                                        <label class="negrita">Póliza</label>
-                                        <select class="form-control" id="cmbPolizas">
-                                        
-                                        </select>
-                                    </div>    
-                                </div>
-                            </div>
-
-                            <hr class="solid">
-                            <label class="text-campesino">Selección de la cuenta contable</label>
-                            
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label class="negrita">Código</label>
-                                        <select class="form-control" id="cmbPCodCuenta">
-                                        
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-8">
-                                    <div class="form-group">
-                                        <label class="negrita">Cuenta</label>
-                                        <select class="form-control" id="cmbPDesCuenta">
-                                        
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="solid">
-                            <label class="text-campesino">Detalle del movimiento</label>
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="negrita">Descripción</label>
-                                        <input type="text" class="form-control" id="txtPDescripcion">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="solid">
-                            
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label class="negrita">DEBE</label>
-                                        <input type="text" class="form-control negrita border-success" id="txtPDebe">
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label class="negrita">HABER</label>
-                                        <input type="text" class="form-control negrita border-danger" id="txtPHaber">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="modal-footer">
-                            
-                            <div class="row">
-                                <div class="col-6">
-                                    <button class="btn btn-outline-secondary shadow" data-dismiss="modal" id="">
-                                        CERRAR
-                                    </button>
-                                
-                                </div>
-                                <div class="col-6">
-                                    <button type="button" class="btn btn-success shadow" id="btnGuardar">
-                                        <i class="fal fa-save"></i>GUARDAR
-                                    </button>    
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `
-        },
         modalNuevaPoliza:()=>{
             return `
             <div class="modal fade" id="modalNuevaPoliza" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -340,7 +205,11 @@ function getView(){
                         <div class="modal-body">
                             <div class="form-group">
                                 <label class="negrita">No. Póliza</label>
-                                <input type="number" class="form-control col-4" id="txtNoPoliza">
+                                <input type="number" class="form-control col-sm-12 col-lg-4 col-xl-4 col-md-6" id="txtNoPoliza">
+                            </div>
+                            <div class="form-group">
+                                <label class="negrita">Fecha Póliza</label>
+                                <input type="date" class="form-control col-sm-12 col-lg-4 col-xl-4 col-md-6" id="txtFechaPoliza">
                             </div>
                             <div class="form-group">
                                 <label class="negrita">Descripción de la Póliza</label>
@@ -368,51 +237,6 @@ function getView(){
                 </div>
             </div>
             `
-        },
-        listadoPoliza: ()=>{
-            return `
-            <div class="card shadow p-2">
-                <div class="card-header">
-                    
-                    <div class="row">
-                        <div class="col-4">
-                            <button class="btn btn-outline-secondary btn-circle btn-xl" id="btnListado">
-                                <i class="fal fa-arrow-left"></i>
-                            </button>
-                        </div>
-                        <div class="col-8">
-                            <div class="form-group">
-                                <label>Seleccione una Póliza</label>
-                                <select class="form-control" id="cmbPolizasLista">
-                                
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-responsive table-hover table-striped">
-                            <thead class="bg-info text-white">
-                                <tr>
-                                    <td>FECHA</td>
-                                    <td>DOCUMENTO</td>
-                                    <td>CUENTA</td>
-                                    <td>DESCRIPCION</td>
-                                    <td>DEBE</td>
-                                    <td>HABER</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="tblPartidas2">
-                            
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            `
         }
     };
 
@@ -432,18 +256,19 @@ function addListeners(){
     cmbMes.value = f.getMonth()+1; cmbAnio.value = f.getFullYear();
 
     //navegacion
-    document.getElementById('btnListaPolizas').addEventListener('click',()=>{document.getElementById('btnTabPolizas').click()})
-    document.getElementById('btnListado').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
+    //document.getElementById('btnListaPolizas').addEventListener('click',()=>{document.getElementById('btnTabPolizas').click()})
+    //document.getElementById('btnListado').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
     document.getElementById('btnAtrasPartida').addEventListener('click',()=>{document.getElementById('btnTabListado').click()})
 
     //POLIZAS
-    let cmbPolizas = document.getElementById('cmbPolizas');
-    cmbPolizas.addEventListener('change',()=>{
-        document.getElementById('txtPNoPoliza').value = cmbPolizas.value;
-    });
-
-    let btnNuevaPoliza = document.getElementById('btnNuevaPoliza');
+    let txtBuscarPoliza = document.getElementById('txtBuscarPoliza');
+    txtBuscarPoliza.addEventListener('keydown',()=>{
+        funciones.FiltrarTabla('tablePolizas','txtBuscarPoliza');
+    })
+    
+     let btnNuevaPoliza = document.getElementById('btnNuevaPoliza');
     btnNuevaPoliza.addEventListener('click',()=>{
+        document.getElementById('txtFechaPoliza').value = funciones.getFecha(); 
         $('#modalNuevaPoliza').modal('show');
     });
 
@@ -455,28 +280,36 @@ function addListeners(){
 
                 let codigo = document.getElementById('txtNoPoliza').value;
                 let descripcion =document.getElementById('txtDesPoliza').value;
+                let fecha = funciones.devuelveFecha('txtFechaPoliza');
+                
+                btnGuardarPoliza.innerHTML = '<i class="fal fa-save fa-spin"></i>'
+                btnGuardarPoliza.disabled = true;
 
-                insertPoliza(codigo,descripcion)
+                insertPoliza(codigo,descripcion,fecha)
                 .then(()=>{
                     funciones.Aviso('Póliza creada exitosamente!!')
-                    getPolizas('cmbPolizas','cmbPolizasLista');
+                    getListaPolizas('tblPolizas',cmbMes.value,cmbAnio.value);
+
+                    btnGuardarPoliza.innerHTML = '<i class="fal fa-save"></i> GUARDAR'
+                    btnGuardarPoliza.disabled = false;
+
                     $('#modalNuevaPoliza').modal('hide');
+                })
+                .catch(()=>{
+                    btnGuardarPoliza.innerHTML = '<i class="fal fa-save"></i> GUARDAR'
+                    btnGuardarPoliza.disabled = false;
+                    funciones.AvisoError('No se pudo guardar la Póliza');
+
                 })
 
             }
         })
     });
 
-    getPolizas('cmbPolizas','cmbPolizasLista');
-
     //PARTIDAS
     document.getElementById('txtPFecha').value = funciones.getFecha(); 
 
-    let btnNuevo = document.getElementById('btnNuevo');
-    btnNuevo.addEventListener('click',()=>{
-        //$('#modalNuevo').modal('show');
-        document.getElementById('btnTabPartida').click()
-    });
+   
 
     let cmbPCodCuenta = document.getElementById('cmbPCodCuenta');
     let cmbPDesCuenta = document.getElementById('cmbPDesCuenta');
@@ -509,15 +342,14 @@ function addListeners(){
                 insertPartida(fecha,documento,nopoliza,codcuenta,descripcion,debe,haber)
                 .then(()=>{
                     funciones.Aviso('Movimiento registrado exitosamente!!');
-                    getListado('tblPartidas');
-                    
+                                      
                     cleanPartidaData();
 
                     btnGuardar.innerHTML = '<i class="fal fa-save"></i>';
                     btnGuardar.disabled = false;
                     //$('#modalNuevo').modal('hide');
-                    getListado3('tblPartida','cmbPolizas');
-
+                    getListado3('tblPartida','txtPNoPoliza');
+                    
                     
                 })
                 .catch(()=>{
@@ -531,18 +363,10 @@ function addListeners(){
         })
     });
 
-    getListado('tblPartidas');
-  
+     
     getCuentas('cmbPCodCuenta','cmbPDesCuenta');
   
-    
-    //listado por pólizas
-    let cmbPolizasLista = document.getElementById('cmbPolizasLista');
-    cmbPolizasLista.addEventListener('change',()=>{
-        getListado2('tblPartidas2','cmbPolizasLista');
-    })
-
-    getListado2('tblPartidas2','cmbPolizasLista');
+    getListaPolizas('tblPolizas',cmbMes.value,cmbAnio.value);
 
     //anima las tabs
     funciones.slideAnimationTabs();
@@ -552,89 +376,6 @@ function addListeners(){
 function InicializarVista(){
     getView();
     addListeners();
-};
-
-function getListado(idContainer){
-
-    let container = document.getElementById(idContainer);
-    container.innerHTML = GlobalLoader;
-
-    let strdata = ''; 
-
-    axios.post('/diario/partidas_listado', {
-        empnit:GlobalEmpnit
-    })
-    .then((response) => {
-        const data = response.data.recordset;
-        data.map((rows)=>{                    
-                    strdata = strdata + `<tr class=''>
-                    <td>${rows.DESPOLIZA}(No.${rows.NOPOLIZA})
-                        <br>
-                        <small class="text-campesino negrita">Fecha: ${funciones.cleanFecha(rows.FECHA)}</small>
-                    </td>
-                    <td class="negrita">${rows.NOPARTIDA}</td>
-                    <td>${rows.DESCUENTA}
-                        <br>
-                        <small class="text-campesino negrita">${rows.CODCUENTA}</small>
-                    </td>
-                    <td>${rows.DESCRIPCION}</td>
-                    <td>${funciones.setMoneda(rows.DEBE,'Q')}</td>
-                    <td>${funciones.setMoneda(rows.HABER,'Q')}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm btn-circle" onclick="">
-                            <i class="fal fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`             
-        })
-        container.innerHTML = strdata;
-    }, (error) => {
-        funciones.AvisoError('Error en la solicitud');
-        strdata = '';
-        container.innerHTML = 'No se pudo cargar la lista';
-    });
-    
-};
-
-function getListado2(idContainer,idCmbPoliza){
-
-    let container = document.getElementById(idContainer);
-    container.innerHTML = GlobalLoader;
-    let nopoliza = document.getElementById(idCmbPoliza);
-
-    let strdata = ''; 
-
-    axios.post('/diario/partidas_listado_poliza', {
-        empnit:GlobalEmpnit,
-        nopoliza:nopoliza.value
-    })
-    .then((response) => {
-        const data = response.data.recordset;
-        data.map((rows)=>{                    
-                    strdata = strdata + `<tr class=''>
-                    <td>${funciones.cleanFecha(rows.FECHA)}</td>
-                    <td class="negrita">${rows.NOPARTIDA}</td>
-                    <td>${rows.DESCUENTA}
-                        <br>
-                        <small class="text-campesino negrita">${rows.CODCUENTA}</small>
-                    </td>
-                    <td>${rows.DESCRIPCION}</td>
-                    <td>${funciones.setMoneda(rows.DEBE,'Q')}</td>
-                    <td>${funciones.setMoneda(rows.HABER,'Q')}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm btn-circle" onclick="">
-                            <i class="fal fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`             
-        })
-        container.innerHTML = strdata;
-    }, (error) => {
-        funciones.AvisoError('Error en la solicitud');
-        strdata = '';
-        container.innerHTML = 'No se pudo cargar la lista';
-    });
-    
 };
 
 function getListado3(idContainer,idCmbPoliza){
@@ -750,49 +491,15 @@ function getCuentas(idContenedorCodigos, idContenedorDescripciones){
 };
 
 
-function getPolizas(idContainer,idContainer2){
-    let container = document.getElementById(idContainer);
-    container.innerHTML = GlobalLoader;
-    let container2 = document.getElementById(idContainer2);
-    container2.innerHTML = GlobalLoader;        
 
-    let strdata = ''; 
-
-    axios.post('/diario/polizas_listado', {
-        empnit:GlobalEmpnit,
-        activo:'SI'
-    })
-    .then((response) => {
-        const data = response.data.recordset;
-        
-        data.map((rows)=>{                    
-                    strdata = strdata + `
-                    <option value="${rows.NOPOLIZA}">${rows.NOPOLIZA}-${rows.DESPOLIZA}</option>
-                    `             
-        })
-        container.innerHTML = strdata;
-        container2.innerHTML = strdata;
-        try {
-            document.getElementById('txtPNoPoliza').value= container.value;
-        } catch (error) {
-            
-        }
-    }, (error) => {
-        funciones.AvisoError('Error en la solicitud');
-        strdata = '';
-        container.innerHTML = '';
-        container2.innerHTML='';
-    });
-  
-};
-
-function insertPoliza(numero,descripcion){
+function insertPoliza(numero,descripcion,fecha){
 
     return new Promise((resolve,reject)=>{
         axios.post('/diario/polizas_insert',{
            empnit:GlobalEmpnit,
            codigo:numero,
-           descripcion:descripcion
+           descripcion:descripcion,
+           fecha:fecha
         })
         .then((response) => {
             let data = response.data;
@@ -807,3 +514,59 @@ function insertPoliza(numero,descripcion){
     })
 
 };
+
+
+
+function getListaPolizas(idContainer,mes,anio){
+  
+    let container = document.getElementById(idContainer);
+    container.innerHTML = GlobalLoader;
+  
+    let strdata = ''; 
+
+    axios.post('/diario/polizas_listado', {
+        empnit:GlobalEmpnit,
+        activo:'SI',
+        mes:mes,
+        anio:anio
+    })
+    .then((response) => {
+        const data = response.data.recordset;
+        
+        data.map((rows)=>{                    
+                    strdata = strdata + `
+                    <tr>
+                        <td>${funciones.cleanFecha(rows.FECHA)}</td>
+                        <td>${rows.NOPOLIZA}</td>
+                        <td>${rows.DESPOLIZA}</td>
+                        <td>
+                            <button class="btn btn-info btn-circle btn-sm" onclick="gotoPartida(${rows.NOPOLIZA},'${rows.DESPOLIZA}','${funciones.cleanFecha(rows.FECHA)}')">
+                                <i class="fal fa-plus"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-circle btn-sm" onclick="">
+                                <i class="fal fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `             
+        })
+        container.innerHTML = strdata;
+       
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        strdata = '';
+        container.innerHTML = '';
+    });
+  
+};
+
+
+function gotoPartida(nopoliza,despoliza,fecha){
+    document.getElementById('txtPNoPoliza').value = nopoliza;
+    document.getElementById('cmbPolizas').value = despoliza;
+    document.getElementById('txtPFecha').value = fecha;
+
+    document.getElementById('btnTabPartida').click();
+}

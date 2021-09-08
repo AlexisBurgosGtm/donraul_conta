@@ -9,9 +9,7 @@ function getView(){
                 <div class="card-body">
                     <div class="form-group">
                         <select class="form-control" id="cmbEmpresas">
-                            <option value="55977464">MAYAS DEL PACIFICO S.A.</option>
-                            <option value="101792069">CONSTRUMATERIALES EL CAMPESINO</option>
-                            <option value="55977146">BLOCKERA DON RAUL</option>
+                          
                         </select>
                     </div>
                     
@@ -51,10 +49,12 @@ function addListeners(){
         log()
         .then(()=>{
             GlobalEmpnit = document.getElementById('cmbEmpresas').value;
+            lbEmpresa.innerText = getEmpresaNombre();
             funciones.showToast('Bienvenido ' + GlobalUsuario)
             classNavegar.inicio();    
         })
         .catch(()=>{
+            
             GlobalEmpnit ='';
             btnIniciar.disabled= false;
             btnIniciar.innerHTML = '<i class="fal fa-lock"></i> Ingresar';
@@ -63,6 +63,8 @@ function addListeners(){
 
         
     });
+
+    document.getElementById('cmbEmpresas').innerHTML = getEmpresasCombo();
 
 };
 
