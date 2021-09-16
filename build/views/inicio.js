@@ -9,7 +9,7 @@ function getView(){
                
                     <div class="row">
                         <div class="col-6">
-                            <div id="btnDiario" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow" data-dismiss="modal">
+                            <div id="btnDiario" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow top-left-rounded bottom-right-rounded" data-dismiss="modal">
                                 <div class="">
                                     <h1 class="display-5 d-block l-h-n m-0 fw-500">
                                         Libro Diario
@@ -21,7 +21,7 @@ function getView(){
                         </div>
 
                         <div class="col-6">
-                            <div id="btnMayor" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow" data-dismiss="modal">
+                            <div id="btnMayor" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow  top-left-rounded bottom-right-rounded" data-dismiss="modal">
                                 <div class="">
                                     <h1 class="display-5 d-block l-h-n m-0 fw-500">
                                         Libro Mayor
@@ -37,7 +37,7 @@ function getView(){
 
                     <div class="row">
                         <div class="col-6">
-                            <div id="btnVentas" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow" data-dismiss="modal">
+                            <div id="btnVentas" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow  top-left-rounded bottom-right-rounded" data-dismiss="modal">
                                 <div class="">
                                     <h1 class="display-5 d-block l-h-n m-0 fw-500">
                                         Libro de Ventas
@@ -49,7 +49,7 @@ function getView(){
                         </div>
 
                         <div class="col-6">
-                            <div id="btnCompras" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow" data-dismiss="modal">
+                            <div id="btnCompras" class="hand p-3 bg-outline-secondary-400 text-secondary rounded overflow-hidden position-relative text-white mb-g shadow  top-left-rounded bottom-right-rounded" data-dismiss="modal">
                                 <div class="">
                                     <h1 class="display-5 d-block l-h-n m-0 fw-500">
                                         Libro de Compra

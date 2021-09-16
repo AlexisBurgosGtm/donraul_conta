@@ -42,14 +42,18 @@ function getView(){
         listado: ()=>{
             return `
             <div class="card shadow p-2" id="containerPolizas">
-                <button class="btn btn-info btn-md shadow" id="btnNuevaPoliza">
-                    <i class="fal fa-book"></i>Nueva Póliza
-                </button>
+                
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
                             <input type="text" class="form-control" id="txtBuscarPoliza" placeholder="Escriba para buscar...">
                         </div>
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+                            <button class="btn btn-info btn-md shadow" id="btnNuevaPoliza">
+                                <i class="fal fa-plus"></i>Nueva Poliza
+                            </button>
+                        </div>
+                        
                     </div>
                     <div class="table-responsive">
                         <table class="table table-responsive table-hover table-striped" id="tablePolizas">
@@ -67,8 +71,9 @@ function getView(){
                             </tbody>
                         </table>
                     </div>
-               
                 </div>
+                    
+
             </div>
             `
         },
@@ -162,7 +167,7 @@ function getView(){
             <div class="row">
                 <div class="table-responsive col-12">
                     <table class="table table-responsive table-hover table-striped">
-                        <thead class="bg-trans-gradient text-white">
+                        <thead class="bg-campesino text-white">
                             <tr>
                                 <td>DOCUMENTO</td>
                                 <td>CUENTA</td>
@@ -174,8 +179,19 @@ function getView(){
                         </thead>
                         <tbody id="tblPartida">
                         
-                        </tbody>
+                        </tbody >
+                        <tfoot class="bg-amarillo">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><h5 class="negrita" id="lbTotalDebe">0</h5></td>
+                            <td><h5 class="negrita"  id="lbTotalHaber">0</h5></td>
+                            <td></td>
+                        </tfoot>
+                        
                     </table>
+                    <div class="col-12" id="divSt"></div>
+                    
                 </div>
             </div>
             
@@ -352,7 +368,11 @@ function addListeners(){
 
     let cmbPCodCuenta = document.getElementById('cmbPCodCuenta');
     let cmbPDesCuenta = document.getElementById('cmbPDesCuenta');
-  
+
+
+    let lbTotalDebe =document.getElementById('lbTotalDebe');
+    let lbTotalHaber = document.getElementById('lbTotalHaber');
+
     cmbPCodCuenta.addEventListener('change',()=>{
         cmbPDesCuenta.value = cmbPCodCuenta.value;
     });
@@ -404,6 +424,8 @@ function addListeners(){
         })
     });
 
+    lbTotalDebe.innerText = "0.00"
+    lbTotalHaber.innerText = "0.00"
      
     getCuentas('cmbPCodCuenta','cmbPDesCuenta');
   
@@ -428,6 +450,8 @@ function getListado3(idContainer,idCmbPoliza){
     let nopoliza = document.getElementById(idCmbPoliza);
 
     let strdata = ''; 
+    let debe =0;
+    let haber =0;
 
     axios.post('/diario/partidas_listado_poliza', {
         empnit:GlobalEmpnit,
@@ -436,7 +460,7 @@ function getListado3(idContainer,idCmbPoliza){
     .then((response) => {
         const data = response.data.recordset;
         data.map((rows)=>{                    
-                    strdata = strdata + `<tr class='border-bottom border-info'>
+                    strdata = strdata + `<tr class='border-bottom border-secondary'>
                     <td class="negrita">${rows.NOPARTIDA}</td>
                     <td>${rows.DESCUENTA}
                         <br>
@@ -450,16 +474,44 @@ function getListado3(idContainer,idCmbPoliza){
                             <i class="fal fa-trash"></i>
                         </button>
                     </td>
-                </tr>`             
+                </tr>`
+                debe += Number(rows.DEBE) || 0;
+                haber += Number(rows.HABER) || 0;             
         })
         container.innerHTML = strdata;
+        document.getElementById('lbTotalDebe').innerText = funciones.setMoneda(debe,'Q');
+        document.getElementById('lbTotalHaber').innerText = funciones.setMoneda(haber,'Q');
+        getCuadrePartida(debe,haber);
     }, (error) => {
         funciones.AvisoError('Error en la solicitud');
         strdata = '';
         container.innerHTML = 'No se pudo cargar la lista';
+        document.getElementById('lbTotalDebe').innerText = '-';
+        document.getElementById('lbTotalHaber').innerText = '-';
     });
     
 };
+
+function getCuadrePartida(debe,haber){
+    let div =document.getElementById('divSt')
+
+    if(Number(debe)==Number(haber)){
+        div.innerHTML = ``
+    }
+
+    if(Number(debe)>Number(haber)){
+        div.innerHTML = `<div class="card bg-danger text-white">
+                <h5>Partida no Cuadrada, DEBE mayor al HABER</h5>
+            </div>`
+    }
+
+    if(Number(debe)<Number(haber)){
+        div.innerHTML = `<div class="card bg-danger text-white">
+            <h5>Partida no Cuadrada, HABER mayor al DEBE</h5>
+        </div>`
+    }
+
+}
 
 function eliminarPartida(id){
 

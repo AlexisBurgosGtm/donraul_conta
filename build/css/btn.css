@@ -1,3 +1,43 @@
+
+.top-left-rounded{
+    border-top-left-radius: 15px;
+  }
+  
+  .top-right-rounded{
+    border-top-right-radius: 15px;
+   
+  }
+  
+  
+  .bottom-left-rounded{
+    border-bottom-left-radius: 15px;
+  }
+  
+  .bottom-right-rounded{
+    border-bottom-right-radius: 15px;
+    
+  }
+  
+  
+  .border-top-rounded{
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+  }
+  
+  .border-bottom-rounded{
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  
+ 
+  /* EVITA QUE UNA MODAL INFERIOR A OTRA PIERDA EL SCROLL */
+  .modal-with-scroll{
+    overflow-y: scroll; 
+  }
+  
+
+  
+
 @media print{
     .oculto-impresion, .oculto-impresion *{
         display:none !important;
@@ -27,6 +67,13 @@
 }
 
 /* BOTON FLOTANTE ESQUINA IZQUIERDA */
+.btnright-fixed { 
+    position: fixed;
+    z-index: 1088;
+    right: 21px;
+    bottom: 15px;
+    }
+
 #fixed-btn3 { 
 position: fixed;
 z-index: 1088;
@@ -157,4 +204,8 @@ bottom: 15px;
 
 .bg-amarillo {
     background-color: rgba(241, 241, 191, 0.959);
+}
+
+.bg-campesino{
+    background-color: rgb(211, 87, 30)
 }
