@@ -80,6 +80,10 @@ function addListeners(){
         classNavegar.diario();
     })
     
+    let btnMayor = document.getElementById('btnMayor');
+    btnMayor.addEventListener('click',()=>{
+        classNavegar.mayor();
+    })
 
 };
 

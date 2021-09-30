@@ -3,15 +3,36 @@ const router = express.Router();
 const execute = require('./connection');
 
 
+router.post('/mayor_mes', async(req,res)=>{
+
+	const {empnit,anio,mes} = req.body;
+
+	let qry = `
+				SELECT DRC_PARTIDAS.NOPOLIZA, DRC_POLIZAS.DESPOLIZA, DRC_PARTIDAS.FECHA, DRC_PARTIDAS.NOPARTIDA, DRC_PARTIDAS.CODCUENTA, DRC_CUENTAS.DESCRIPCION AS DESCUENTA, 
+									DRC_PARTIDAS.DESCRIPCION, DRC_PARTIDAS.DEBE, DRC_PARTIDAS.HABER
+				FROM DRC_POLIZAS RIGHT OUTER JOIN
+									DRC_PARTIDAS ON DRC_POLIZAS.NOPOLIZA = DRC_PARTIDAS.NOPOLIZA AND DRC_POLIZAS.EMPNIT = DRC_PARTIDAS.EMPNIT LEFT OUTER JOIN
+									DRC_CUENTAS ON DRC_PARTIDAS.CODCUENTA = DRC_CUENTAS.CODCUENTA AND DRC_PARTIDAS.EMPNIT = DRC_CUENTAS.EMPNIT
+				WHERE (DRC_PARTIDAS.EMPNIT = '${empnit}')
+				ORDER BY DRC_PARTIDAS.CODCUENTA, DRC_PARTIDAS.FECHA
+	`
+
+	execute.Query(res,qry);
+
+});
+
+
 // PARTIDAS
 router.post("/partidas_insert", async(req,res)=>{
 	
 	const {empnit,fecha,numero,nopoliza,codcuenta,descripcion,debe,haber} = req.body;
 
+	
+
 	let qry = `INSERT INTO DRC_PARTIDAS 
-	(EMPNIT,NOPOLIZA,FECHA,NOPARTIDA,CODCUENTA,DESCRIPCION,DEBE,HABER)
+	(EMPNIT,NOPOLIZA,FECHA,ANIO,MES,DIA,NOPARTIDA,CODCUENTA,DESCRIPCION,DEBE,HABER)
 	VALUES
-	('${empnit}',${nopoliza},'${fecha}','${numero}','${codcuenta}','${descripcion}',${debe},${haber})`;
+	('${empnit}',${nopoliza},'${fecha}',2021,9,30,'${numero}','${codcuenta}','${descripcion}',${debe},${haber})`;
 	
 	execute.Query(res,qry);
 

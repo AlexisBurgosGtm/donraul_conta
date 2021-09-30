@@ -10,7 +10,6 @@ let classNavegar = {
         funciones.loadScript('./views/inicio.js','root')
         .then(()=>{
             btnMenu.style = "visibility:visible";
-            cmbEmpresas.style = 'visibility: visible';
             InicializarVista();
         })
     },
@@ -37,6 +36,13 @@ let classNavegar = {
         .then(()=>{
             InicializarVista();
         })
+    },
+    mayor : ()=>{
+        funciones.loadScript('./views/mayor.js','root')
+        .then(()=>{
+            InicializarVista();
+        })
     }
+
 }
 
