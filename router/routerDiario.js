@@ -32,7 +32,7 @@ router.post("/partidas_insert", async(req,res)=>{
 	let qry = `INSERT INTO DRC_PARTIDAS 
 	(EMPNIT,NOPOLIZA,FECHA,ANIO,MES,DIA,NOPARTIDA,CODCUENTA,DESCRIPCION,DEBE,HABER)
 	VALUES
-	('${empnit}',${nopoliza},'${fecha}',${f.getFullYear()},${(f.getUTCMonth()+1)},${f.getDay()},'${numero}','${codcuenta}','${descripcion}',${debe},${haber})`;
+	('${empnit}',${nopoliza},'${fecha}',${f.getFullYear()},${(f.getUTCMonth()+1)},${f.getDate()},'${numero}','${codcuenta}','${descripcion}',${debe},${haber})`;
 	
 	execute.Query(res,qry);
 
