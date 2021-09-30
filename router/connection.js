@@ -7,7 +7,6 @@
 	}};
 
 
-
 	const config = {
 		user: 'DB_A6478C_donraul_admin',
 		password: 'razors1805',
